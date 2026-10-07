@@ -51,25 +51,39 @@ def extract_db(myTimer: func.TimerRequest) -> None:
         # Cria o cursor
         cursor = conn.cursor()
 
-        logging.info("Executando SELECT na tabela itsm.chamado")
+        # Lista de tabelas identificadas no banco itsm
+        tabelas = [
+            "analista",
+            "categoria",
+            "chamado",
+            "chamado_sla",
+            "chamado_status_historico",
+            "cliente_organizacao",
+            "csat_avaliacao",
+            "fila",
+            "sla",
+            "solicitante"
+        ]
 
-        cursor.execute("""
-            SELECT *
-            FROM itsm.chamado
-        """)
+        # Iteração para extração de cada tabela
+        for tabela in tabelas:
+            logging.info(f"Executando SELECT na tabela itsm.{tabela}")
 
-        # Recupera os registros
-        registros = cursor.fetchall()
+            cursor.execute(f"""
+                SELECT *
+                FROM itsm.{tabela}
+            """)
 
-        logging.info(
-            f"Total de registros encontrados: {len(registros)}"
-        )
+            registros = cursor.fetchall()
 
-        # Exibe os registros
-        for registro in registros:
-            logging.info(f"Chamado: {registro}")
+            logging.info(
+                f"Total de registros encontrados na tabela {tabela}: {len(registros)}"
+            )
 
-        logging.info("Consulta executada com sucesso.")
+            for registro in registros:
+                logging.info(f"Registro [{tabela}]: {registro}")
+
+            logging.info(f"Consulta na tabela {tabela} executada com sucesso.")
 
     except pyodbc.Error as e:
         logging.error(

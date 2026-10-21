@@ -19,7 +19,7 @@ jobs:
       id-token: write
       contents: read
     env:
-      AZURE_FUNCTIONAPP_NAME: 'nome-da-sua-function-app'
+      AZURE_FUNCTIONAPP_NAME: 'tapr-i'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
